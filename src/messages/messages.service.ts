@@ -32,10 +32,7 @@ export class MessagesService {
     await this.messageRepo.save(question)
     history.push({role: "user", content: dt.content})
 
-    console.log(history)
-
     const answer = await this.gptService.getAnswe(history)
-    console.log(answer)
 
     const messageRes = {
       role: "assistant",
@@ -52,7 +49,7 @@ export class MessagesService {
   async getAll(userId: number, dialogueId: number) {
     const message = await this.messageRepo.find({
       where: {userId, dialogueId},
-      select: {role: true, content: true}
+      select: {role: true, content: true},
     })
     return message
   }

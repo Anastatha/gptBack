@@ -8,7 +8,7 @@ import { RolesService } from 'src/roles/roles.service';
 @Injectable()
 export class DialoguesService {
     constructor(@InjectRepository(DialogueEntity) private dialogueRepo: Repository<DialogueEntity>,
-    private rolesService: RolesService
+    private rolesService: RolesService,
     ) {}
 
     async creteDialogue(dto: CreateDialogueDto) {

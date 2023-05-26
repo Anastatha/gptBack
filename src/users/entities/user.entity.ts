@@ -1,7 +1,7 @@
 import { DialogueEntity } from "src/dialogues/entities/dialogues.entity";
 import { MessageEntity } from "src/messages/entities/message.entity";
 import { RolesEntity } from "src/roles/entities/role.entity";
-import {Column, CreateDateColumn, Entity, JoinTable, ManyToMany, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn} from "typeorm";
+import {Column, CreateDateColumn, Entity, OneToMany, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn} from "typeorm";
 
 @Entity({name: 'users'})
 export class UserEntity {
@@ -17,7 +17,7 @@ export class UserEntity {
 	@Column()
 	password: string
 
-	@Column({nullable: true})
+	@Column()
 	premium: boolean
 
 	@CreateDateColumn({name: 'created_at'})
@@ -32,7 +32,6 @@ export class UserEntity {
 	@OneToMany(() => MessageEntity, messageEntity => messageEntity.user)
 	messages: MessageEntity[]
 
-	//
-	// @OneToOne(() => RolesEntity, rolesEntity => rolesEntity.users)
-    // role: RolesEntity
+	@OneToMany(() => RolesEntity, rolesEntity => rolesEntity.users)
+    role: RolesEntity[]
 }

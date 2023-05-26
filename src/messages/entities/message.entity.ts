@@ -7,7 +7,7 @@ export class MessageEntity {
 	@PrimaryGeneratedColumn()
 	id: number;
 
-	@Column()
+	@Column({nullable:true})
     role: string 
 	
 	@Column()

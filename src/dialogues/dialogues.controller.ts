@@ -1,10 +1,13 @@
 import { Body, Controller, Get, Param, Patch, Post } from '@nestjs/common';
 import { DialoguesService } from './dialogues.service';
 import { CreateDialogueDto } from './dto/crete-dialogue.dto';
+import { MessagesService } from 'src/messages/messages.service';
+import { CreateMessageDto } from 'src/messages/dto/create-message.dto';
 
 @Controller('dialogues')
 export class DialoguesController {
-  constructor(private readonly dialoguesService: DialoguesService) {}
+  constructor(private readonly dialoguesService: DialoguesService,
+    ) {}
 
   @Post()
   async creteDialogue(@Body() dto: CreateDialogueDto) {
