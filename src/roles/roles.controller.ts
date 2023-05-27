@@ -20,4 +20,17 @@ export class RolesController {
     const userId = req.user.id
     return this.rolesService.getRole(userId)
   }
+
+  @UseGuards(JwtAuthGuard)
+  @Get('/:id')
+  getOneRole(@Param('id') id: number) {
+    return this.rolesService.findOneRole(id)
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Delete()
+  remoteOneRole(@Request() req, @Body('id') id: number) {
+    const userId = req.user.id
+    return this.rolesService.remoteOneRole(id, userId)
+  }
 }

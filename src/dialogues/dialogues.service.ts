@@ -13,26 +13,50 @@ export class DialoguesService {
     async creteDialogue(userId: number, roleId: number) {
         const role = await this.rolesService.findOneRole(roleId)
         const dialogue = await this.dialogueRepo.create({userId: userId, name: role.name, roleId: role.id})
+
         return this.dialogueRepo.save(dialogue)
     }
 
     async updateDialogueRole(id: number, roleId: number) {
         const dialogue = await this.dialogueRepo.findOne({where: {id}})
         const role = await this.rolesService.findOneRole(roleId)
-        
         dialogue.role = role
+
         return this.dialogueRepo.save(dialogue)
     }
 
     async getOne(id: number) {
-        const dialogue = await this.dialogueRepo.findOne({where: {id}})
+        const dialogue = await this.dialogueRepo.findOne({
+            where: {id}
+        })
+
         return dialogue
     }
 
     async getAllDialogue(id: number) {
         const dialogue = await this.dialogueRepo.find({
+            relations: {role: true},
             where: {userId: id}
         })
+        
         return dialogue
+    }
+
+    async remoteOneDialogues(id: number) {
+        const dialogue = await this.dialogueRepo.findOne({
+            where: {id}
+        })
+
+        return this.dialogueRepo.remove(dialogue) 
+    } 
+
+    async remoteAllDialogues(id: number) {
+        const dialogue = await this.dialogueRepo.find({
+            where: {userId: id}
+        })
+        
+        for(let i = 0; i < dialogue.length; i++) {
+            this.dialogueRepo.remove(dialogue[i])
+        }
     }
 }

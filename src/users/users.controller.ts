@@ -15,20 +15,16 @@ export class UsersController {
 
   @UseGuards(JwtAuthGuard)
   @Get()
-  findAll() {
-      return this.usersService.findAll()
-  }
-
-  @UseGuards(JwtAuthGuard)
-  @Get(':id')
-  findOne(@Param('id') id: number) {
-      return this.usersService.findOne(id)
+  findOne(@Request() req) {
+    const id = req.user.id
+    return this.usersService.findOne(id)
   }
 
   @UseGuards(JwtAuthGuard)
   @Patch('/profile')
-  userAddPremium(@Body('email') email: string) {
-    return this.usersService.userAddPremium(email)
+  userAddPremium(@Request() req) {
+    const id = req.user.id
+    return this.usersService.userAddPremium(id)
   }
 
   @UseGuards(JwtAuthGuard)

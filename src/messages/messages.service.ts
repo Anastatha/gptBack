@@ -25,7 +25,7 @@ export class MessagesService {
 
     const getHistory = await this.getAll(id, dialogueId)
     history.push(...getHistory)
-
+    
     const questionRes = {
       role: 'user',
       content: dt.content,
@@ -47,8 +47,9 @@ export class MessagesService {
     }
     const messageSave =  await this.messageRepo.create(messageRes)
     await this.messageRepo.save(messageSave)
+    console.log(answer)
 
-    return answer
+    return JSON.stringify(answer)
   }
 
   async getAll(userId: number, dialogueId: number) {
@@ -58,4 +59,5 @@ export class MessagesService {
     })
     return message
   }
+
 }

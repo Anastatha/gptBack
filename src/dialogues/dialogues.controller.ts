@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Patch, Post, Request, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post, Request, UseGuards } from '@nestjs/common';
 import { DialoguesService } from './dialogues.service';
 import { MessagesService } from 'src/messages/messages.service';
 import { CreateMessageDto } from 'src/messages/dto/create-message.dto';
@@ -36,6 +36,7 @@ export class DialoguesController {
     return this.dialoguesService.updateDialogueRole(id, roleId)
   }
 
+  @UseGuards(JwtAuthGuard)
   @Get(':id')
   async getOne(@Param('id') id: number) {
     return this.dialoguesService.getOne(id)
@@ -47,4 +48,19 @@ export class DialoguesController {
     const userId = req.user.id
     return this.dialoguesService.getAllDialogue(userId)
   }
+
+  @UseGuards(JwtAuthGuard)
+  @Delete(':id')
+    remoteOneDialogues(@Param('id') id: number) {
+      return this.dialoguesService.remoteOneDialogues(id)
+    }
+  
+  @UseGuards(JwtAuthGuard)
+  @Delete()
+  remoteAllDialogues(@Request() req) {
+    const userId = req.user.id
+    return this.dialoguesService.remoteAllDialogues(userId)
+  }
 }
+
+
