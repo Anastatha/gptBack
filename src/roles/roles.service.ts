@@ -11,9 +11,9 @@ export class RolesService {
         private usersService: UsersService
     ) {}
 
-    async createRole(dto: CreateRoleDto) {
+    async createRole(id:number, dto: CreateRoleDto) {
         const role = await this.roleRepo.create(dto)
-        const user = await this.usersService.findOne(dto.userId)
+        const user = await this.usersService.findOne(id)
         role.users = user
         return this.roleRepo.save(role)
     }

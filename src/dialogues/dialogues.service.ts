@@ -11,9 +11,9 @@ export class DialoguesService {
     private rolesService: RolesService,
     ) {}
 
-    async creteDialogue(dto: CreateDialogueDto) {
+    async creteDialogue(userId: number , dto: CreateDialogueDto) {
         const role = await this.rolesService.findOneRole(dto.roleId)
-        const dialogue = await this.dialogueRepo.create({userId: dto.userId, name: role.name, roleId: role.id})
+        const dialogue = await this.dialogueRepo.create({userId: userId, name: role.name, roleId: role.id})
         return this.dialogueRepo.save(dialogue)
     }
 

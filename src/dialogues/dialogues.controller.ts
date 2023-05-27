@@ -1,17 +1,35 @@
-import { Body, Controller, Get, Param, Patch, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Patch, Post, Request, UseGuards } from '@nestjs/common';
 import { DialoguesService } from './dialogues.service';
 import { CreateDialogueDto } from './dto/crete-dialogue.dto';
 import { MessagesService } from 'src/messages/messages.service';
 import { CreateMessageDto } from 'src/messages/dto/create-message.dto';
+import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 
 @Controller('dialogues')
 export class DialoguesController {
   constructor(private readonly dialoguesService: DialoguesService,
+    private readonly messagesService: MessagesService
     ) {}
 
+  @UseGuards(JwtAuthGuard)
   @Post()
-  async creteDialogue(@Body() dto: CreateDialogueDto) {
-    return this.dialoguesService.creteDialogue(dto)
+  async creteDialogue(@Request() req, @Body() dto: CreateDialogueDto) {
+    const userId = req.user.id
+    return this.dialoguesService.creteDialogue(userId, dto)
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Post('/:id/messages')
+  async creteMessage(@Request() req, @Param('id') id: number, @Body() dt: CreateMessageDto) {
+    const userId = req.user.id
+    return this.messagesService.createMessage(userId, id, dt)
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Get('/:id/messages')
+  async getAllMessages(@Request() req, @Param('id') id: number) {
+      const userId = req.user.id
+      return this.messagesService.getAll(userId, id)
   }
 
   @Patch(':id')

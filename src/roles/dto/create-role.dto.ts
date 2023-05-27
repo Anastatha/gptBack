@@ -8,7 +8,4 @@ export class CreateRoleDto {
     @IsNotEmpty()
     @IsString()
     name: string
-
-    @IsOptional()
-    userId: number
 }

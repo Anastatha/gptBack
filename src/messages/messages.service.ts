@@ -14,21 +14,26 @@ export class MessagesService {
     private dialogueService: DialoguesService,
     private rolesService: RolesService
   ) {}
-
-  async createMessage(dt: CreateMessageDto) {
+  async createMessage(id: number, dialogueId: number, dt: CreateMessageDto) {
     const history = []
 
-    const dialogue = await this.dialogueService.getOne(dt.dialogueId)
+    const dialogue = await this.dialogueService.getOne(dialogueId)
     const role = await this.rolesService.findOneRole(dialogue.roleId)
     if(dialogue.roleId) {
       history.push({role: "system", content: role.value})
     }
 
-    const getHistory = await this.getAll(dt.userId, dt.dialogueId)
+    const getHistory = await this.getAll(id, dialogueId)
     history.push(...getHistory)
 
-    const question = await this.messageRepo.create(dt)
-    question.role = 'user'
+    const questionRes = {
+      role: 'user',
+      content: dt.content,
+      userId: id,
+      dialogueId: dialogueId
+    }
+
+    const question = await this.messageRepo.create(questionRes)
     await this.messageRepo.save(question)
     history.push({role: "user", content: dt.content})
 
@@ -37,8 +42,8 @@ export class MessagesService {
     const messageRes = {
       role: "assistant",
       content: answer,
-      userId: dt.userId,
-      dialogueId: dt.dialogueId
+      userId: id,
+      dialogueId: dialogueId
     }
     const messageSave =  await this.messageRepo.create(messageRes)
     await this.messageRepo.save(messageSave)
