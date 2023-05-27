@@ -27,4 +27,19 @@ export class RolesService {
         const role = await this.roleRepo.findOne({where: {id}})
         return role
     }
+
+    async getRole(userId: number) {
+        const role = await this.roleRepo.find({
+            take: 5 
+        })
+
+        const roleUser = await this.roleRepo.find({
+            relations: {users: true},
+            where: {users: {id: userId}}
+        })
+
+        const getRoles = [...role, ...roleUser]
+
+        return getRoles
+    }
 }

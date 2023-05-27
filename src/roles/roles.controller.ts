@@ -14,8 +14,10 @@ export class RolesController {
     return this.rolesService.createRole(userId, dto)
   }
 
+  @UseGuards(JwtAuthGuard)
   @Get()
-  findAllRole() {
-    return this.rolesService.findAllRole()
+  getRole(@Request() req) {
+    const userId = req.user.id
+    return this.rolesService.getRole(userId)
   }
 }

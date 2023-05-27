@@ -1,6 +1,5 @@
 import { Body, Controller, Get, Param, Patch, Post, Request, UseGuards } from '@nestjs/common';
 import { DialoguesService } from './dialogues.service';
-import { CreateDialogueDto } from './dto/crete-dialogue.dto';
 import { MessagesService } from 'src/messages/messages.service';
 import { CreateMessageDto } from 'src/messages/dto/create-message.dto';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
@@ -13,9 +12,9 @@ export class DialoguesController {
 
   @UseGuards(JwtAuthGuard)
   @Post()
-  async creteDialogue(@Request() req, @Body() dto: CreateDialogueDto) {
+  async creteDialogue(@Request() req, @Body('roleId') roleId: number) {
     const userId = req.user.id
-    return this.dialoguesService.creteDialogue(userId, dto)
+    return this.dialoguesService.creteDialogue(userId, roleId)
   }
 
   @UseGuards(JwtAuthGuard)
@@ -42,8 +41,10 @@ export class DialoguesController {
     return this.dialoguesService.getOne(id)
   }
 
+  @UseGuards(JwtAuthGuard)
   @Get()
-  async getAllGialogue() {
-    return this.dialoguesService.getAllGialogue()
+  async getAllDialogue(@Request() req) {
+    const userId = req.user.id
+    return this.dialoguesService.getAllDialogue(userId)
   }
 }
