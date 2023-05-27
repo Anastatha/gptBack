@@ -8,7 +8,7 @@ export class DialogueEntity {
 	@PrimaryGeneratedColumn()
 	id: number;
 
-	@Column({unique: true})
+	@Column()
 	name: string;
 
 	@Column({nullable: true})

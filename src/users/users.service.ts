@@ -38,11 +38,11 @@ export class UsersService {
     return user
   }
 
-  async userAddPremium(email: string) {
-    const user = await this.findUserByEmail(email)
+  async userAddPremium(id: number) {
+    const user = await this.findOne(id)
 
     if (!user) {
-      throw new NotFoundException(`User with ${email} not found`)
+      throw new NotFoundException(`User not found`)
     }
 
     user.premium = true

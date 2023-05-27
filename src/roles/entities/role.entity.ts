@@ -1,6 +1,6 @@
 import { DialogueEntity } from "src/dialogues/entities/dialogues.entity";
 import { UserEntity } from "src/users/entities/user.entity";
-import {Column, Entity, PrimaryGeneratedColumn, ManyToMany, OneToMany, OneToOne} from "typeorm";
+import {Column, Entity, PrimaryGeneratedColumn, ManyToMany, OneToMany, OneToOne, ManyToOne} from "typeorm";
 
 @Entity({name: 'roles'})
 export class RolesEntity {
@@ -13,13 +13,9 @@ export class RolesEntity {
 	@Column({unique: true})
 	value: string;
 
-	// @Column()
-	// userId: number
-
 	@OneToMany(() => DialogueEntity, dialogueEntity => dialogueEntity.role)
 	dialogue: DialogueEntity[]
 
-	//
-	// @OneToOne(() => UserEntity, userEntity => userEntity.role)
-    // users: UserEntity
+	@ManyToOne(() => UserEntity, userEntity => userEntity.role)
+    users: UserEntity
 }
