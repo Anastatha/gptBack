@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { Configuration, OpenAIApi, CreateChatCompletionRequest } from "openai";
+import { Configuration, OpenAIApi, CreateChatCompletionRequest, ChatCompletionRequestMessage } from "openai";
 
 const DEFAULT_MAX_TOKENS = 2048
 
@@ -17,7 +17,7 @@ export class ChatGptAiService {
   this.openAiApi = new OpenAIApi(configuration);
   }
 
-  async getAnswe(history) {
+  async getAnswe(history: ChatCompletionRequestMessage[]) {
       const params: CreateChatCompletionRequest = {
         model: "gpt-3.5-turbo",
         messages: history,

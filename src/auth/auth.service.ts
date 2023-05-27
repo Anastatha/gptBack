@@ -17,7 +17,6 @@ export class AuthService {
             throw new BadRequestException('User with thie email is already in the system')
         }
         const hashPassword = await bcrypt.hash(userDto.password, 5)
-        console.log(hashPassword)
         const user = await this.userService.creatUser({...userDto, password: hashPassword})
         return this.generateToken(user)
     }

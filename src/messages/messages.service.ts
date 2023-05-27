@@ -47,7 +47,6 @@ export class MessagesService {
     }
     const messageSave =  await this.messageRepo.create(messageRes)
     await this.messageRepo.save(messageSave)
-    console.log(answer)
 
     return JSON.stringify(answer)
   }
