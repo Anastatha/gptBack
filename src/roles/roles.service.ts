@@ -1,7 +1,7 @@
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { CreateRoleDto } from './dto/create-role.dto';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { IsNull, Not, Repository } from 'typeorm';
 import { RolesEntity } from './entities/role.entity';
 import { UsersService } from 'src/users/users.service';
 
@@ -35,14 +35,14 @@ export class RolesService {
 
     async getRole(userId: number) {
         const role = await this.roleRepo.find({
-            take: 5 
+            relations: ['users'],
+            where: {users: IsNull()}
         })
 
         const roleUser = await this.roleRepo.find({
             relations: {users: true},
             where: {users: {id: userId}}
         })
-
         const getRoles = [...role, ...roleUser]
 
         return getRoles
