@@ -23,7 +23,7 @@ export class DialogueEntity {
 	@UpdateDateColumn({name: 'updated_at'})
 	updatedAt: Date;
 
-	@OneToMany(() => MessageEntity, messageEntity => messageEntity.dialogue)
+	@OneToMany(() => MessageEntity, messageEntity => messageEntity.dialogue, {onDelete: 'CASCADE'})
 	messages: MessageEntity[]
     
 	@ManyToOne(() => UserEntity, userEntity => userEntity.dialogues)

@@ -25,7 +25,7 @@ export class MessageEntity {
 	@UpdateDateColumn({name: 'updated_at'})
 	updatedAt: Date;
 
-    @ManyToOne(() => DialogueEntity, dialogueEntity => dialogueEntity.messages)
+    @ManyToOne(() => DialogueEntity, dialogueEntity => dialogueEntity.messages, {onDelete: 'CASCADE'})
     dialogue: DialogueEntity
 
 	@ManyToOne(() => UserEntity, userEntity => userEntity.messages)

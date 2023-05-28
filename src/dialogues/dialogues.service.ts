@@ -49,14 +49,4 @@ export class DialoguesService {
 
         return this.dialogueRepo.remove(dialogue) 
     } 
-
-    async remoteAllDialogues(id: number) {
-        const dialogue = await this.dialogueRepo.find({
-            where: {userId: id}
-        })
-        
-        for(let i = 0; i < dialogue.length; i++) {
-            this.dialogueRepo.remove(dialogue[i])
-        }
-    }
 }

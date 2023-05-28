@@ -54,13 +54,6 @@ export class DialoguesController {
     remoteOneDialogues(@Param('id') id: number) {
       return this.dialoguesService.remoteOneDialogues(id)
     }
-  
-  @UseGuards(JwtAuthGuard)
-  @Delete()
-  remoteAllDialogues(@Request() req) {
-    const userId = req.user.id
-    return this.dialoguesService.remoteAllDialogues(userId)
-  }
 }
 
 
