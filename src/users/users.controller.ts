@@ -33,7 +33,7 @@ export class UsersController {
     return this.usersService.updateUser(id, updateDto)
   }
 
-  @UseGuards(JwtAuthGuard)
+  // @UseGuards(JwtAuthGuard)
   @Delete('/remote/:id')
   remove(@Param('id') id:number) {
       return this.usersService.remove(id)

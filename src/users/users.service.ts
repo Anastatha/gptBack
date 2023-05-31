@@ -4,6 +4,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { UserEntity } from './entities/user.entity';
 import { UpdateUserUserDto } from './dto/update-user.dto';
+import * as bcrypt from 'bcryptjs'
 
 @Injectable()
 export class UsersService {
@@ -54,6 +55,10 @@ export class UsersService {
 
     if (!user) {
       throw new NotFoundException(`User with ${id} not found`)
+    }
+
+    if(userDto.password) {
+      userDto.password = await bcrypt.hash(userDto.password, 5)
     }
 
     Object.assign(user, userDto)
